@@ -79,6 +79,7 @@ namespace VillageAdventure
         private void tmr_checkbounds_Tick(object sender, EventArgs e)
         {
             CheckBounds();
+
         }
 
         private void pictureBox1_Click_1(object sender, EventArgs e)
@@ -111,10 +112,41 @@ namespace VillageAdventure
             }    
         }
 
+        public PictureBox coin()
+        {
+
+            PictureBox co = new PictureBox();
+            co.Width = 20;
+            co.Height = 20;
+            co.Image = VillageAdventure.Properties.Resources.Coin;
+            co.Tag = "coin";
+            co.SizeMode = PictureBoxSizeMode.Zoom;
+            this.Controls.Add(co);
+            co.Location = new Point(rand.Next(0, ClientSize.Width), rand.Next(0, 250));
+
+            return co;
+        }
+
         private void tmr_spawnplatform_Tick(object sender, EventArgs e)
         {
             Autojump();
             pbx_character.Top += 10;
+            foreach (Control x in this.Controls)
+            {
+                if (x is PictureBox)
+                {
+                    if (x.Tag == "coin")
+                    {
+                        
+                        if (x.Bounds.IntersectsWith(pbx_character.Bounds))
+                        {
+                            x.Dispose();
+                            SQLInteraction.Update("Login", "coins");
+                        }
+                    }
+
+                }
+            }
         }
 
         private void pbx_platform_Click(object sender, EventArgs e)
@@ -151,6 +183,11 @@ namespace VillageAdventure
                 }
             }
 
+        }
+
+        private void tmr_coin_Tick(object sender, EventArgs e)
+        {
+            coin();
         }
     }
 

@@ -13,6 +13,8 @@ namespace VillageAdventure
 {
     public partial class frm_login : Form
     {
+        public static int id;
+
         public frm_login()
         {
             InitializeComponent();
@@ -59,6 +61,14 @@ namespace VillageAdventure
         private void btn_login_Click(object sender, EventArgs e)
         {
             SQLInteraction.CheckTable("Login", txt_username.Text, txt_password.Text);
+
+            id = SQLInteraction.GetID("Login", txt_username.Text, "Id");
+
+            //MessageBox.Show(id.ToString());
+            SQLInteraction.con.Close();
+
+            frm_doodlejump frm = new frm_doodlejump();
+            frm.ShowDialog();
         }
     }
 }

@@ -16,7 +16,8 @@ namespace VillageAdventure
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frm_JumpAndRun());
+
+            Application.Run(new frm_login());
         }
     }
 }
