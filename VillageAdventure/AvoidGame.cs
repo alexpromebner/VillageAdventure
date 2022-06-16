@@ -15,6 +15,8 @@ namespace VillageAdventure
 
         public int enemy;
         public int xRnd;
+        public static PictureBox enemypic = new PictureBox();
+        public Random rnd = new Random();
 
         public AvoidGame()
         {
@@ -29,37 +31,69 @@ namespace VillageAdventure
 
         private void AvoidGame_Load(object sender, EventArgs e)
         {
-            
+           
         }
 
         private void tmr_main_Tick(object sender, EventArgs e)
         {
-            if(pbx_character.Name == "pbx_character")
-            {
-                tmr_main.Interval = 1;
-                CheckBounds();
-            }
-            tmr_main.Interval = 1000;
-
             Random rnd = new Random();
             enemy = rnd.Next(1, 3);
-            PictureBox enemypic = new PictureBox();
-
-
-            CharacterMovement movement = new CharacterMovement();
-            movement.x = enemypic.Location.X;
-            movement.y = enemypic.Location.Y;
 
             if (enemy == 2)
             {
-                enemypic.Width = 100;
-                enemypic.Height = 100;
-                enemypic.BackColor = Color.Red;
-                enemypic.Location = new Point(rnd.Next(0, 458), rnd.Next(0, 250));
-                Controls.Add(enemypic);
+                foreach (Control x in this.Controls)
+                {
+                    if (x is PictureBox)
+                    {
+                        if (x.Tag == "enemy")
+                        {
+                            x.Top += 2;
+                            if (x.Bounds.IntersectsWith(pbx_character.Bounds))
+                            {
+                                tmr_main.Stop();
+                                tmr_spawnenemy.Stop();
+                                x.Dispose();
+                                DialogResult message = MessageBox.Show("Do you want to play again?", "You were too slow to hit a platform!", MessageBoxButtons.YesNo);
 
+                                if (message == DialogResult.Yes)
+                                {
+                                    AvoidGame dj = new AvoidGame();
+                                    this.Hide();
+                                    dj.ShowDialog();
+                                    this.Close();
+                                }
+                                else if(message == DialogResult.No)
+                                {
+                                    this.Close();
+                                }
+                            }
+                        }
+
+                    }
+                }
                 //MessageBox.Show(enemy.ToString());
             }
+            if (enemy == 1)
+            {
+                foreach (Control x in this.Controls)
+                {
+                    if (x is PictureBox)
+                    {
+                        if (x.Tag == "coin")
+                        {
+                            x.Top += 2;
+                            if (x.Bounds.IntersectsWith(pbx_character.Bounds))
+                            {
+                                x.Dispose();
+                                SQLInteraction.Update("Login", "coins");                                
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            DoubleBuffered = true;
         }
 
         private void AvoidGame_KeyDown(object sender, KeyEventArgs e)
@@ -87,6 +121,10 @@ namespace VillageAdventure
                 dj.ShowDialog();
                 this.Close();
             }
+            else if (e.KeyCode == Keys.C)
+            {
+                this.Close();
+            }
         }
         public void CheckBounds()
         {
@@ -98,6 +136,55 @@ namespace VillageAdventure
             {
                 pbx_character.Location = new Point(-5, pbx_character.Location.Y);
             }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void tmr_spawnenemy_Tick(object sender, EventArgs e)
+        {
+            coin();
+            opponent();
+        }
+
+        public PictureBox opponent()
+        {
+            
+            PictureBox opp = new PictureBox();
+            opp.Width = 20;
+            opp.Height = 20;
+            opp.BackColor = Color.Red;
+            opp.Tag = "enemy";
+            this.Controls.Add(opp);
+            opp.Location = new Point(rnd.Next(0, ClientSize.Width), rnd.Next(0, 250));
+
+            return opp;
+        }
+        public PictureBox coin()
+        {
+            
+            PictureBox co = new PictureBox();
+            co.Width = 20;
+            co.Height = 20;
+            co.Image = VillageAdventure.Properties.Resources.Coin;
+            co.Tag = "coin";
+            co.SizeMode = PictureBoxSizeMode.Zoom;
+            this.Controls.Add(co);
+            co.Location = new Point(rnd.Next(0, ClientSize.Width), rnd.Next(0, 250));
+
+            return co;
+        }
+
+        private void lbl_coins_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }
