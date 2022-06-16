@@ -11,7 +11,7 @@ using MySql.Data.MySqlClient;
 
 namespace VillageAdventure
 {
-    class SQLInteraction
+    class SQLInteraction : frm_login
     {
         
         public static MySqlConnection con = new MySqlConnection();
@@ -94,7 +94,7 @@ namespace VillageAdventure
             {
                 con.ConnectionString = "server=web.hak-kitz.eu;database=a.promebner_VillageAdventure;UID=a.promebner;password='MyDatabase034';";
                 con.Open();
-                cmd.CommandText = "INSERT INTO " + tablename +"(username,password) VALUES('" + v_username + "', '" + v_password + "')";
+                cmd.CommandText = "INSERT INTO " + tablename +"(username,password,coins) VALUES('" + v_username + "', '" + v_password + "',10)";
                 cmd.ExecuteNonQuery();
                 con.Close();
             }
@@ -102,6 +102,40 @@ namespace VillageAdventure
             {
                 MessageBox.Show(e.Message);
             }
+        }
+
+        public static void Update(string tablename, string columnname)
+        {
+            try
+            {
+                con.ConnectionString = "server=web.hak-kitz.eu;database=a.promebner_VillageAdventure;UID=a.promebner;password='MyDatabase034';";
+                con.Open();
+                cmd.CommandText = "UPDATE " + tablename + " SET " + columnname + " = " + columnname + " + 1 WHERE id = " + id + ";";
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }
+
+        public static int GetID(string tablename, string v_username, string name) 
+        {
+            try
+            {
+                con.ConnectionString = "server=web.hak-kitz.eu;database=a.promebner_VillageAdventure;UID=a.promebner;password='MyDatabase034';";
+                con.Open();
+                SqlCommand cmd1 = new SqlCommand();
+                cmd.CommandText = "SELECT " + name + " FROM " + tablename + " WHERE username = '" + v_username + "';";
+                cmd.ExecuteNonQuery();
+                //con.Close();          
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            return (int)cmd.ExecuteScalar();
         }
     }
 }
