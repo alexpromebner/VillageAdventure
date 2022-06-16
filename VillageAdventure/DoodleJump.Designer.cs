@@ -47,6 +47,7 @@ namespace VillageAdventure
             this.pbx_left = new System.Windows.Forms.PictureBox();
             this.pbx_down = new System.Windows.Forms.PictureBox();
             this.pbx_character = new System.Windows.Forms.PictureBox();
+            this.tmr_coin = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
@@ -230,6 +231,12 @@ namespace VillageAdventure
             this.pbx_character.TabStop = false;
             this.pbx_character.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
+            // tmr_coin
+            // 
+            this.tmr_coin.Enabled = true;
+            this.tmr_coin.Interval = 2000;
+            this.tmr_coin.Tick += new System.EventHandler(this.tmr_coin_Tick);
+            // 
             // frm_doodlejump
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -292,5 +299,6 @@ namespace VillageAdventure
         private System.Windows.Forms.PictureBox pictureBox10;
         private System.Windows.Forms.PictureBox pictureBox12;
         private System.Windows.Forms.PictureBox pictureBox8;
+        private System.Windows.Forms.Timer tmr_coin;
     }
 }

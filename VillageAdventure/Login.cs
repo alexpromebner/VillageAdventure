@@ -67,7 +67,7 @@ namespace VillageAdventure
             //MessageBox.Show(id.ToString());
             SQLInteraction.con.Close();
 
-            AvoidGame frm = new AvoidGame();
+            frm_doodlejump frm = new frm_doodlejump();
             frm.ShowDialog();
         }
     }

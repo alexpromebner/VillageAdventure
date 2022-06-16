@@ -38,6 +38,7 @@ namespace VillageAdventure
         {
             Random rnd = new Random();
             enemy = rnd.Next(1, 3);
+            CheckBounds();
 
             if (enemy == 2)
             {
@@ -152,6 +153,7 @@ namespace VillageAdventure
         {
             coin();
             opponent();
+            
         }
 
         public PictureBox opponent()
